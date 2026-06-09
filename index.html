@@ -2308,29 +2308,5 @@ if('serviceWorker' in navigator){
   setTimeout(show,2000);
 })();
 </script>
-<script>
-(function(){
-  var shown=false;
-  function broken(){var r=document.getElementById('ns-root');return !r||(r.textContent||'').trim().length<5;}
-  function showRecovery(){
-    if(shown||!broken())return;
-    shown=true;
-    var o=document.createElement('div');o.id='ns-recovery';
-    o.style.cssText='position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#e8f5e9,#c8e6c9);display:flex;align-items:center;justify-content:center;padding:24px;font-family:\'Noto Sans TC\',sans-serif;';
-    o.innerHTML='<div style="max-width:360px;text-align:center;background:#fff;border-radius:20px;padding:28px 22px;box-shadow:0 8px 30px rgba(0,0,0,0.15);">'
-      +'<div style="font-size:46px;margin-bottom:10px;">🌿</div>'
-      +'<div style="font-size:19px;font-weight:800;color:#1b5e20;margin-bottom:10px;">App 暫時沒載入成功</div>'
-      +'<div style="font-size:15px;color:#33691e;line-height:1.7;margin-bottom:6px;">別擔心，您的紀錄都安全保存在這支手機裡，不會遺失。</div>'
-      +'<div style="font-size:14px;color:#558b2f;line-height:1.7;margin-bottom:18px;">請按下面的按鈕重新整理，通常就會恢復。</div>'
-      +'<button id="ns-reco-reload" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#43a047,#2e7d32);color:#fff;font-size:17px;font-weight:800;cursor:pointer;">重新整理</button>'
-      +'</div>';
-    document.body.appendChild(o);
-    document.getElementById('ns-reco-reload').onclick=function(){location.reload();};
-  }
-  window.addEventListener('load',function(){setTimeout(showRecovery,6000);});
-  window.addEventListener('error',function(){setTimeout(showRecovery,3000);});
-  window.addEventListener('unhandledrejection',function(){setTimeout(showRecovery,3000);});
-})();
-</script>
 </body>
 </html>

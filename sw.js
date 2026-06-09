@@ -3,7 +3,7 @@
    - 導覽(HTML):network-first → 線上永遠拿最新版,離線時回退快取
    - 字型等資源:cache-first(背景更新)
    注意:本檔需與 index.html 放在 GitHub 同一資料夾。 */
-const CACHE = 'newstart-shell-v16-1';
+const CACHE = 'newstart-shell-v16-2';
 
 self.addEventListener('install', function (e) {
   self.skipWaiting();
