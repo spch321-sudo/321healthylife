@@ -2,7 +2,10 @@
 <html lang="zh-Hant" data-theme="light" data-fs="large">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<style>html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+button,.counter button,.toggle-btn,[data-act],[data-tab]{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}</style>
 <meta name="theme-color" content="#1b5e20">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -626,7 +629,7 @@ function renderHome(){
   hero.appendChild(el('div','verse','「'+vs[0]+'」<br>— '+vs[1]));
   view.appendChild(hero);
 
-  view.appendChild(el('h2','title','NEW START 八項'));
+  view.appendChild(el('h2','title','NEW START 八項健康指標'));
   PILLARS.forEach(function(p){
     var d2=today();var v=d2[p.k]||0;var pc=pillarPct(p);
     var card=el('div','card');
