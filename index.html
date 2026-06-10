@@ -1531,9 +1531,20 @@ function _showShareText(title,text){
   ta.style.cssText='margin:14px;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.95rem;line-height:1.7;font-family:inherit;resize:none;white-space:pre-wrap;height:300px';
   box.appendChild(ta);
   var btns=el('div'); btns.style.cssText='display:flex;gap:10px;padding:0 14px 16px';
-  var copy=el('button','','📋 複製'); copy.style.cssText='flex:1;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#4CAF50,#2e7d32);color:#fff;font-weight:800;cursor:pointer';
-  copy.addEventListener('click',function(){ try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){toast('已複製，可貼到 LINE／訊息分享');},function(){ta.select();toast('請長按文字選取複製');});} else {ta.select();document.execCommand&&document.execCommand('copy');toast('已複製');} }catch(e){ta.select();toast('請長按文字選取複製');} });
-  var close=el('button','','關閉'); close.style.cssText='flex:0 0 96px;padding:13px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-weight:700;cursor:pointer';
+  var copy=el('button','','📋 複製'); copy.style.cssText='flex:1;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,#4CAF50,#2e7d32);color:#fff;font-weight:800;font-size:1.1rem;cursor:pointer';
+  copy.addEventListener('click',function(){
+    var ok=false;
+    try{ ta.readOnly=false; ta.focus(); ta.setSelectionRange(0,ta.value.length); ok=document.execCommand&&document.execCommand('copy'); ta.readOnly=true; }catch(e){ ok=false; }
+    if(ok){ toast('已複製，可貼到 LINE／訊息分享'); return; }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ toast('已複製，可貼到 LINE／訊息分享'); },
+        function(){ try{ta.readOnly=false;ta.focus();ta.setSelectionRange(0,ta.value.length);ta.readOnly=true;}catch(e){} toast('已選取文字，請長按選「複製」'); });
+      return;
+    }
+    try{ ta.readOnly=false; ta.focus(); ta.setSelectionRange(0,ta.value.length); ta.readOnly=true; }catch(e){}
+    toast('已選取文字，請長按選「複製」');
+  });
+  var close=el('button','','關閉'); close.style.cssText='flex:0 0 104px;padding:15px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-weight:700;font-size:1.1rem;cursor:pointer';
   close.addEventListener('click',function(){ov.remove();});
   btns.appendChild(copy);btns.appendChild(close); box.appendChild(btns);
   ov.appendChild(box); ov.addEventListener('click',function(e){if(e.target===ov)ov.remove();});
