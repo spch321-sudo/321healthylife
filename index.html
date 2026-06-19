@@ -738,6 +738,23 @@ function _bedBell(){
   try{ if(navigator.vibrate)navigator.vibrate([260,140,260]); }catch(e){}
   _bedSchedOK=false; _bedOscs=[];
 }
+/* 視覺提示：靜音狀態也一定看得見的全螢幕完成動畫（不依賴聲音） */
+function _bedFlash(){
+  try{
+    var ov=document.getElementById('bed-overlay'); if(!ov)return;
+    var f=document.createElement('div');
+    f.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:50;pointer-events:none;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,0.40),rgba(255,255,255,0) 62%)';
+    f.innerHTML='<div id="bed-flash-icon" style="font-size:84px;line-height:1">🙏</div>'
+      +'<div style="font-size:1.6rem;font-weight:800;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,0.28)">禱告完成 · 阿們</div>'
+      +'<div style="font-size:.98rem;color:rgba(255,255,255,0.9)">願神賜你平安的睡眠 🌙</div>';
+    ov.appendChild(f);
+    try{ f.animate([{opacity:0,transform:'scale(0.92)'},{opacity:1,transform:'scale(1)'}],{duration:480,easing:'ease-out',fill:'forwards'}); }catch(e){}
+    try{ var ic=f.querySelector('#bed-flash-icon'); if(ic)ic.animate([{transform:'scale(1)'},{transform:'scale(1.14)'},{transform:'scale(1)'}],{duration:1300,iterations:2,easing:'ease-in-out'}); }catch(e){}
+    setTimeout(function(){
+      try{ var a=f.animate([{opacity:1},{opacity:0}],{duration:800,easing:'ease-in',fill:'forwards'}); a.onfinish=function(){try{f.remove();}catch(e){}}; }catch(e){ try{f.remove();}catch(_e){} }
+    },2800);
+  }catch(e){}
+}
 function openBedtime(){
   _bedCancelBell();
   _bedStep=0;_bedSecs=0;_bedRunning=false; if(_bedTimer){clearInterval(_bedTimer);_bedTimer=null;}
@@ -767,7 +784,7 @@ window._bedPrayStart=function(){
     var t=document.getElementById('bed-ptime'), ring=document.getElementById('bed-pring');
     if(t)t.textContent=pad(Math.floor(_bedSecs/60))+':'+pad(_bedSecs%60);
     if(ring){var C=2*Math.PI*68; ring.style.strokeDashoffset=(C*(1-Math.min(_bedSecs/300,1))).toFixed(1);}
-    if(_bedSecs>=300){clearInterval(_bedTimer);_bedTimer=null;_bedRunning=false; if(!S.bedPray)S.bedPray={}; S.bedPray[todayKey()]=true; save(); _bedBell(); _bedDraw();}
+    if(_bedSecs>=300){clearInterval(_bedTimer);_bedTimer=null;_bedRunning=false; if(!S.bedPray)S.bedPray={}; S.bedPray[todayKey()]=true; save(); _bedBell(); _bedDraw(); _bedFlash();}
   },1000);
   _bedDraw();
 };
