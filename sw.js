@@ -1,42 +1,29 @@
-/* 321健康新生活 — 離線快取 Service Worker
-   更新 App 後，把下面的版本號改一下（例如 v17 → v18），
-   使用者重新開啟時就會自動下載最新版。 */
-const CACHE = '321health-v21';
-const ASSETS = ['./', './index.html'];
+/* 321健康新生活 Service Worker — 改版時請將 CACHE 版本 +1 */
+const CACHE = 'newstart321-v1';
+const ASSETS = ['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
-// 安裝：預先快取首頁
-self.addEventListener('install', function (e) {
+self.addEventListener('install', function(e){
   self.skipWaiting();
+  e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ASSETS);}).catch(function(){}));
+});
+self.addEventListener('activate', function(e){
   e.waitUntil(
-    caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).catch(function () {})
+    caches.keys().then(function(ks){
+      return Promise.all(ks.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));
+    }).then(function(){return self.clients.claim();})
   );
 });
-
-// 啟用：清掉舊版本快取
-self.addEventListener('activate', function (e) {
-  e.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(keys.map(function (k) {
-        if (k !== CACHE) { return caches.delete(k); }
-      }));
-    }).then(function () { return self.clients.claim(); })
-  );
-});
-
-// 取用：先回快取（離線可用），同時背景更新
-self.addEventListener('fetch', function (e) {
-  var req = e.request;
-  if (req.method !== 'GET') { return; }
+self.addEventListener('fetch', function(e){
+  if(e.request.method!=='GET') return;
   e.respondWith(
-    caches.match(req).then(function (cached) {
-      var network = fetch(req).then(function (res) {
-        if (res && res.status === 200 && res.type === 'basic') {
-          var copy = res.clone();
-          caches.open(CACHE).then(function (c) { c.put(req, copy); }).catch(function () {});
+    caches.match(e.request).then(function(cached){
+      var net = fetch(e.request).then(function(resp){
+        if(resp && resp.status===200 && resp.type==='basic'){
+          var cp=resp.clone(); caches.open(CACHE).then(function(c){c.put(e.request,cp);});
         }
-        return res;
-      }).catch(function () { return cached; });
-      return cached || network;
+        return resp;
+      }).catch(function(){ return cached; });
+      return cached || net;   /* 先回快取（離線可用），背景再更新 */
     })
   );
 });
