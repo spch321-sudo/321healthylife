@@ -682,7 +682,7 @@ function renderHome(){
     }
     if(p.k==='a'){
       var ab=document.createElement('button');
-      ab.textContent='🌬️ 478 呼吸練習（深呼吸五次）';
+      ab.textContent='🌬️ 478 呼吸練習（深呼吸 '+goalOf(p)+' 次）';
       ab.style.cssText='width:100%;margin-top:8px;padding:.6rem;border-radius:12px;background:rgba(38,198,218,0.12);border:1px solid rgba(38,198,218,0.4);color:#00838f;font-weight:700;font-size:1rem;cursor:pointer;';
       ab.addEventListener('click',function(e){e.stopPropagation();openBreath();});
       (card.querySelector('.body')||card).appendChild(ab);
@@ -879,9 +879,9 @@ function _tempDraw(){
 }
 
 /* ===================== 空氣：478 呼吸練習（移植自 v16 4-7-8 呼吸法） ===================== */
-var _brTimer=null,_brCycle=0;
+var _brTimer=null,_brCycle=0,_brGoal=5;
 function openBreath(){
-  _brCycle=0; if(_brTimer){clearTimeout(_brTimer);_brTimer=null;}
+  _brCycle=0; _brGoal=(function(){var _ap=null;PILLARS.forEach(function(x){if(x.k==='a')_ap=x;});return _ap?goalOf(_ap):5;})(); if(_brTimer){clearTimeout(_brTimer);_brTimer=null;}
   var ov=document.getElementById('breath-overlay');
   if(!ov){ov=document.createElement('div');ov.id='breath-overlay';document.body.appendChild(ov);}
   ov.style.cssText='position:fixed;inset:0;z-index:3200;max-width:560px;margin:0 auto;background:linear-gradient(160deg,#0277bd,#26c6da);color:#fff;display:flex;flex-direction:column;';
@@ -891,8 +891,8 @@ function openBreath(){
     +'<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:0 24px">'
       +'<div style="width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,0.16);border:3px solid rgba(255,255,255,0.55);display:flex;align-items:center;justify-content:center;transition:transform 4s ease-in-out;transform:scale(0.7)" id="br-circle">'
         +'<div id="br-phase" style="font-size:1.5rem;font-weight:800">準備</div></div>'
-      +'<div id="br-count" style="font-size:1.05rem;opacity:.9;font-weight:700">第 0 / 5 次</div>'
-      +'<div style="font-size:.92rem;line-height:1.9;text-align:center;opacity:.92;max-width:340px">吸氣 4 秒 → 屏息 7 秒 → 吐氣 8 秒<br>跟著圓圈一起呼吸<br>「耶和華神…將生氣吹在他鼻孔裡，他就成了有靈的活人。」創世記 2:7</div>'
+      +'<div id="br-count" style="font-size:1.05rem;opacity:.9;font-weight:700">第 0 / '+_brGoal+' 次</div>'
+      +'<div style="font-size:.92rem;line-height:1.9;text-align:center;opacity:.92;max-width:340px">吸氣 4 秒 → 屏息 7 秒 → 吐氣 8 秒<br>跟著圓圈一起呼吸<br><br>💛 可以結合禱告<br>吸氣時默念「主耶穌啊」<br>屏息時靜默焦點在耶穌<br>呼氣時默禱「感謝主！讚美主！」<br><br>「耶和華神…將生氣吹在他鼻孔裡，他就成了有靈的活人。」創世記 2:7</div>'
       +'<button id="br-start" onclick="window._brStart()" style="padding:14px 44px;border-radius:16px;background:rgba(255,255,255,0.22);border:2px solid rgba(255,255,255,0.55);color:#fff;font-weight:800;font-size:1.05rem;cursor:pointer">▶ 開始</button>'
     +'</div>';
 }
@@ -902,7 +902,7 @@ function _brRun(phase){
   var circle=document.getElementById('br-circle'),ph=document.getElementById('br-phase'),cnt=document.getElementById('br-count');
   if(!circle)return;
   if(phase==='inhale'){
-    _brCycle++; if(cnt)cnt.textContent='第 '+_brCycle+' / 5 次';
+    _brCycle++; if(cnt)cnt.textContent='第 '+_brCycle+' / '+_brGoal+' 次';
     circle.style.transition='transform 4s ease-in-out'; circle.style.transform='scale(1.18)';
     if(ph)ph.textContent='吸氣 4 秒';
     _brTimer=setTimeout(function(){_brRun('hold');},4000);
@@ -912,16 +912,16 @@ function _brRun(phase){
   } else {
     circle.style.transition='transform 8s ease-in-out'; circle.style.transform='scale(0.7)';
     if(ph)ph.textContent='吐氣 8 秒';
-    _brTimer=setTimeout(function(){ if(_brCycle>=5){_brFinish();} else {_brRun('inhale');} },8000);
+    _brTimer=setTimeout(function(){ if(_brCycle>=_brGoal){_brFinish();} else {_brRun('inhale');} },8000);
   }
 }
 function _brFinish(){
   var dd=today(),p=null; PILLARS.forEach(function(x){if(x.k==='a')p=x;}); dd['a']=goalOf(p); save();
   var ph=document.getElementById('br-phase'); if(ph)ph.textContent='完成 🙏';
-  var cnt=document.getElementById('br-count'); if(cnt)cnt.textContent='已完成五次深呼吸，平安臨到！';
+  var cnt=document.getElementById('br-count'); if(cnt)cnt.textContent='已完成 '+_brGoal+' 次深呼吸，平安臨到！';
   var b=document.getElementById('br-start'); if(b){ b.style.display=''; b.textContent='✓ 完成，返回'; b.setAttribute('onclick','window._brCloseDone()'); }
 }
-window._brCloseDone=function(){ window._brClose(); renderHome(); toast('🌬️ 深呼吸五次完成，身心舒暢！'); };
+window._brCloseDone=function(){ window._brClose(); renderHome(); toast('🌬️ 深呼吸 '+_brGoal+' 次完成，身心舒暢！'); };
 
 /* ===================== 信靠：30天靈修生活（內頁，移植自 v16 關係） ===================== */
 var DEVO=[
