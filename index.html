@@ -438,11 +438,49 @@ html[data-theme="dark"] .food.pearl.on .mk,html[data-theme="dark"] .food.pearl .
 </style>
 </head>
 <body>
+<style id="l321css">
+.appbar .brand{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+.appbar .sec{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+@media (max-width:420px){.appbar .sec{display:none;}}
+.lsw{margin-left:auto;display:flex;flex-shrink:0;gap:2px;padding:2px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);}
+.lsw button{border:0;background:transparent;color:var(--text2);font-size:.78rem;font-weight:800;padding:4px 8px;border-radius:999px;cursor:pointer;line-height:1.1;font-family:inherit;}
+.lsw button.on{background:var(--brand);color:#fff;}
+.set-row .lsw{margin-left:8px;}
+</style>
+<script id="l321js">
+/* 繁／简／EN 三語版本切換（三版同網域、同一份紀錄 newstart_v17） */
+var L321_CUR='tc';
+var L321_URL={tc:'https://spch321-sudo.github.io/321healthylife/',sc:'https://spch321-sudo.github.io/321healthylife-sc/',en:'https://spch321-sudo.github.io/321healthylife-en/'};
+var L321_LB=[['tc','繁'],['sc','简'],['en','EN']];
+function l321go(k){
+  if(k===L321_CUR)return;
+  try{localStorage.setItem('nh321_lang',k);}catch(e){}
+  location.href=L321_URL[k];
+}
+function l321sw(){
+  var box=document.createElement('div');box.className='lsw';box.setAttribute('role','group');box.title='切換語言';
+  for(var i=0;i<L321_LB.length;i++){
+    var b=document.createElement('button');b.type='button';
+    b.textContent=L321_LB[i][1];b.setAttribute('data-l',L321_LB[i][0]);
+    if(L321_LB[i][0]===L321_CUR)b.className='on';
+    b.onclick=function(){l321go(this.getAttribute('data-l'));};
+    box.appendChild(b);
+  }
+  return box;
+}
+function L321row(){
+  var r=document.createElement('div');r.className='set-row';
+  r.innerHTML='<div><div class="l">\uD83C\uDF10 語言版本</div><div class="d">繁體／简体／English，紀錄共用不會遺失</div></div>';
+  r.appendChild(l321sw());return r;
+}
+</script>
+
 <div class="wrap">
   <div class="header">
   <div class="appbar">
     <span class="brand">🌱 321健康新生活</span>
     <span class="sec" id="secLabel">NEW START</span>
+    <span id="l321top"></span><script>(function(){var h=document.getElementById('l321top');h.parentNode.replaceChild(l321sw(),h);})();</script>
   </div>
   <nav class="topnav">
     <div class="tnrow">
@@ -1731,6 +1769,7 @@ function renderSet(){
     b.addEventListener('click',function(){S.settings.fs=o[0];save();applySettings();renderSet();});
     seg.appendChild(b);});
   r2.appendChild(seg); disp.appendChild(r2);
+  if(window.L321row)disp.appendChild(L321row());
   view.appendChild(disp);
 
   // 個人資料（移植自 v16）
