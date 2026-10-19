@@ -1,5 +1,5 @@
 /* 321健康新生活 Service Worker — 改版時請將 CACHE 版本 +1 */
-const CACHE = 'newstart321-v2';
+const CACHE = 'newstart321-v3';
 const ASSETS = ['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
 self.addEventListener('install', function(e){
