@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant" data-theme="light" data-fs="large">
 <head>
+<script>/* 三語同一個 App：上次選簡體或英文，就直接開那一版（網址加 ?tc 可強制繁體） */try{var l=localStorage.getItem("nh321_lang");var M={"sc": "sc.html", "en": "en.html"};if(M[l]&&!/[?&]tc\b/.test(location.search))location.replace(M[l]+location.hash);}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
@@ -450,7 +451,7 @@ html[data-theme="dark"] .food.pearl.on .mk,html[data-theme="dark"] .food.pearl .
 <script id="l321js">
 /* 繁／简／EN 三語版本切換（三版同網域、同一份紀錄 newstart_v17） */
 var L321_CUR='tc';
-var L321_URL={tc:'https://spch321-sudo.github.io/321healthylife/',sc:'https://spch321-sudo.github.io/321healthylife-sc/',en:'https://spch321-sudo.github.io/321healthylife-en/'};
+var L321_URL={tc:'index.html?tc',sc:'sc.html',en:'en.html'};
 var L321_LB=[['tc','繁'],['sc','简'],['en','EN']];
 function l321go(k){
   if(k===L321_CUR)return;

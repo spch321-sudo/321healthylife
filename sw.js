@@ -1,6 +1,6 @@
 /* 321健康新生活 Service Worker — 改版時請將 CACHE 版本 +1 */
-const CACHE = 'newstart321-v3';
-const ASSETS = ['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
+const CACHE = 'newstart321-v4-tri10231626';
+const ASSETS = ['./','./index.html','./sc.html','./en.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
 self.addEventListener('install', function(e){
   self.skipWaiting();
@@ -9,7 +9,7 @@ self.addEventListener('install', function(e){
 self.addEventListener('activate', function(e){
   e.waitUntil(
     caches.keys().then(function(ks){
-      return Promise.all(ks.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));
+      return Promise.all(ks.filter(function(k){return k!==CACHE && k.indexOf('newstart321')===0;}).map(function(k){return caches.delete(k);}));
     }).then(function(){return self.clients.claim();})
   );
 });
