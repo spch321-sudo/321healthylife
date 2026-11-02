@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant" data-theme="light" data-fs="large">
 <head>
+<script>/* 一起共讀：先記下 ?join=CODE（&screen=1）；語言頁轉址會丟掉網址參數 */(function(){try{var q=location.search,m=q.match(/[?&]join=(\d{6})/);if(m){sessionStorage.setItem('cr_j',JSON.stringify({j:m[1],s:/[?&]screen=1/.test(q)?1:0,t:Date.now()}));}if(/[?&]screen=1/.test(q)){window.CR_SCREEN=true;}}catch(e){}})();</script>
 <script>/* 三語同一個 App：上次選簡體或英文，就直接開那一版（網址加 ?tc 可強制繁體） */try{var l=localStorage.getItem("nh321_lang");var M={"sc": "sc.html", "en": "en.html"};if(M[l]&&!/[?&]tc\b/.test(location.search))location.replace(M[l]+location.hash);}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
@@ -2992,5 +2993,6 @@ body{font-size:17px;line-height:1.55}
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
+<script src="coread.js?v=co20261102a"></script>
 </body>
 </html>
