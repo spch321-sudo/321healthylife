@@ -2993,6 +2993,54 @@ body{font-size:17px;line-height:1.55}
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
+<script>
+/* 321 互動功能（朗讀／畫線／小智／美圖）設定：gxr.js＝逐句朗讀與頂列按鈕（ES5），gxa.js＝小智、美圖工作室、畫線面板、工具箱 */
+window.GXR_CFG = {
+  name: "321健康新生活", slug: "healthylife", lang: function () { return "zh"; },
+  mount: function (box) { var a = document.querySelector('.appbar'); if (!a) return false; var sw = a.querySelector('.lsw'); a.insertBefore(box, sw || null); return true; },
+  bottomSel: ".botbar",
+  view: function () { var o = document.querySelector('#devo-overlay,#bed-overlay,#temp-overlay,#breath-overlay'); if (o) return o.id; var b = document.querySelector('.tnrow button.on'); return b ? b.getAttribute('data-tab') : 'home'; },
+  topInset: function () { var h = document.querySelector('.header'); return h ? h.getBoundingClientRect().bottom : 60; },
+  title: function () { var o = document.getElementById('devo-overlay'); if (o) return '30 Day Devotion'.replace('30 Day Devotion', GXR.lang === 'en' ? '30-Day Devotion' : (GXR.lang === 'zs' ? '30天灵修生活' : '30天靈修生活')); var b = document.querySelector('.tnrow button.on .nl'); return (window.GXR_CFG.name || '') + (b ? ' · ' + b.textContent.trim() : ''); },
+  overlayActive: function () { return !!document.querySelector('#devo-overlay,#bed-overlay,#temp-overlay,#breath-overlay'); },
+  read: { rootFn: function () { var o = document.getElementById('devo-overlay'); return [o || document.getElementById('view')]; }, sel: ".verse,.tip,.lead,.sub,.sci-d,.ef,.nut,.msub,.cat,#devo-overlay [style*=\"font-style:italic\"],#devo-overlay [style*=\"line-height:1.8;margin-bottom:8px\"],#devo-overlay [style*=\"font-weight:900;margin-bottom:4px\"],#devo-overlay [style*=\"line-height:1.95\"] > div", skipIn: ".k3m,#k3m,.k321meet,.toast" },
+  css: "@media (max-width:420px){.appbar .brand{font-size:.95em}}",
+  hl: true
+};
+window.GXA_CFG = {
+  name: "321健康新生活", nameEn: "321 Healthy Living (NEW START)", slug: "healthylife", lang: function () { return "zh"; },
+  lessons: function () {
+    var out = [], LBL = ["NEW START 八項健康指標", "斷食的科學原理", "彩虹飲食", "靈修第", "天："], i;
+    try {
+      var a = []; for (i = 0; i < PILLARS.length; i++) a.push((PILLARS[i].zh || '') + ' — ' + (PILLARS[i].tip || ''));
+      out.push({ label: LBL[0], read: false, paras: a });
+    } catch (e) {}
+    try {
+      var b = []; for (i = 0; i < FAST_SCI.length; i++) b.push(FAST_SCI[i][1] + ' — ' + FAST_SCI[i][2]);
+      out.push({ label: LBL[1], read: false, paras: b });
+    } catch (e) {}
+    try {
+      var c = []; for (i = 0; i < RAINBOW.length; i++) c.push((RAINBOW[i].name || '') + ' — ' + (RAINBOW[i].ef || '') + ' — ' + (RAINBOW[i].nut || ''));
+      out.push({ label: LBL[2], read: false, paras: c });
+    } catch (e) {}
+    try {
+      for (i = 0; i < DEVO.length; i++) out.push({ label: LBL[3] + DEVO[i].d + LBL[4] + DEVO[i].t, read: false, paras: [DEVO[i].t, DEVO[i].v, DEVO[i].a, DEVO[i].r] });
+    } catch (e) {}
+    return out;
+  },
+  current: function () { return 1; },
+  quote: function () { return window.GXR ? GXR.quote() : null; },
+  ready: function (G) {
+    G.sage({
+      system: function () { return "你是「小智」，國度321空中團契「321健康新生活（NEW START）」App 的 AI 健康與屬靈陪伴。你是福音派、敬虔愛主的牧者與健康生活教練，以 321 理念回應：三個基礎（耶穌是我的榜樣、聖經是我的準則、聖靈是我的引導）、兩個核心（讓耶穌作王、讓耶穌得著一切的榮耀）、一個目的（建立屬神的體系）；NEW START 八項（營養、運動、飲水、陽光、節制、空氣、休息、信靠）幫助人在身、心、靈得著健康。回答深入淺出、溫暖有盼望，引用和合本聖經（標明出處），用繁體中文回答，簡明扼要。健康建議只是一般生活參考，不是診斷或處方：遇到疾病、用藥、慢性病、孕期、嚴重情緒困擾或自傷念頭，請提醒諮詢醫師或專業人員，緊急時撥打當地急救電話；絕不要叫人自行停藥。\n\n回答格式：用簡短的小標題（####）與條列分段；請把最重要的一句用「> 」標成引言，那一句會被做成美圖。不要用程式碼區塊或念不出來的裝飾符號。若寫到禱告，標題用「憑信心禱告」、用讀者第一人稱讓讀者自己禱告，結尾一律用「奉主耶穌的名禱告，阿們」。"; },
+      quicks: function () { return ["怎麼開始 NEW START 八項健康習慣？", "16:8 間歇性斷食要注意什麼？", "心情低落時，有什麼簡單的操練可以幫助我？", "「身體是聖靈的殿」在飲食與運動上怎麼應用？", "睡不好、焦慮的時候，怎麼用禱告與呼吸操練平靜下來？"]; },
+      onSpeak: function (t) { try { GXR.speak(t); } catch (e) {} }
+    });
+  }
+};
+</script>
+<script src="gxr.js?v=gx1103"></script>
+<script src="gxa.js?v=gx1103"></script>
 <script src="coread.js?v=co20261102a"></script>
 </body>
 </html>

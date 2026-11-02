@@ -1,6 +1,6 @@
 /* 321健康新生活 Service Worker — 改版時請將 CACHE 版本 +1 */
-const CACHE = 'newstart321-v5-co20261102a';
-const ASSETS = ['./','./index.html','./sc.html','./en.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./coread.js?v=co20261102a','./peerjs.min.js?v=co20261102a'];
+const CACHE = 'newstart321-v6-gx1103';
+const ASSETS = ['./','./index.html','./sc.html','./en.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./coread.js?v=co20261102a','./peerjs.min.js?v=co20261102a','./gxr.js?v=gx1103','./gxa.js?v=gx1103'];
 
 self.addEventListener('install', function(e){
   self.skipWaiting();
