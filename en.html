@@ -3003,7 +3003,7 @@ window.GXR_CFG = {
   topInset: function () { var h = document.querySelector('.header'); return h ? h.getBoundingClientRect().bottom : 60; },
   title: function () { var o = document.getElementById('devo-overlay'); if (o) return '30 Day Devotion'.replace('30 Day Devotion', GXR.lang === 'en' ? '30-Day Devotion' : (GXR.lang === 'zs' ? '30天灵修生活' : '30天靈修生活')); var b = document.querySelector('.tnrow button.on .nl'); return (window.GXR_CFG.name || '') + (b ? ' · ' + b.textContent.trim() : ''); },
   overlayActive: function () { return !!document.querySelector('#devo-overlay,#bed-overlay,#temp-overlay,#breath-overlay'); },
-  read: { rootFn: function () { var o = document.getElementById('devo-overlay'); return [o || document.getElementById('view')]; }, sel: ".verse,.tip,.lead,.sub,.sci-d,.ef,.nut,.msub,.cat,#devo-overlay [style*=\"font-style:italic\"],#devo-overlay [style*=\"line-height:1.8;margin-bottom:8px\"],#devo-overlay [style*=\"font-weight:900;margin-bottom:4px\"],#devo-overlay [style*=\"line-height:1.95\"] > div", skipIn: ".k3m,#k3m,.k321meet,.toast" },
+  read: { skip: ".cps", rootFn: function () { var o = document.getElementById('devo-overlay'); return [o || document.getElementById('view')]; }, sel: ".verse,.tip,.lead,.sub,.sci-d,.ef,.nut,.msub,.cat,#devo-overlay [style*=\"font-style:italic\"],#devo-overlay [style*=\"line-height:1.8;margin-bottom:8px\"],#devo-overlay [style*=\"font-weight:900;margin-bottom:4px\"],#devo-overlay [style*=\"line-height:1.95\"] > div", skipIn: ".k3m,#k3m,.k321meet,.toast" },
   css: "@media (max-width:420px){.appbar .brand{font-size:.95em}}",
   hl: true
 };
@@ -3046,8 +3046,24 @@ window.GXA_CFG = {
 <script src="xzm.js?v=xzm1103"></script>
 <script>try{XZM.install(XZM.preset.gx());}catch(e){}</script>
 <script src="coread.js?v=co20261102a"></script>
-<script>var APPVER="v7-up1103-xz1103-xzm1103-rf1105";window.UPD321_VER=APPVER;window.UPD321_PFX=["nsmain321-", "newstart321-v6-gx1103"];</script>
-<script src="upd321.js?v=v7-up1103-xz1103-xzm1103-rf1105"></script>
+<script>var APPVER="v8-up1103-xz1103-xzm1103-rf1105-cs1109";window.UPD321_VER=APPVER;window.UPD321_PFX=["nsmain321-", "newstart321-v6-gx1103"];</script>
+<script src="upd321.js?v=v8-up1103-xz1103-xzm1103-rf1105-cs1109"></script>
 <script>UPD321.mountWhen("#view","end",null,".set-row");</script>
+<script id="CPARCFG">/* 逐句中英並讀（cpar321.js）：30天靈修、節制清單、睡前安息、飲食與斷食分頁 */
+function __cparOv(){return document.querySelector('#devo-overlay,#bed-overlay,#temp-overlay,#breath-overlay');}
+function __cparScroll(r){var s=r.querySelector('[style*="overflow-y:auto"]');return {parent:s||r,before:(s||r).firstChild};}
+window.CPAR321_CFG={ui:'en',alt:'index.html',altLang:'zh-Hant',delay:450,seed:['newstart_v17'],strip:['k321meet'],
+ views:[
+  {root:function(){return document.getElementById('devo-overlay');},grab:'#devo-overlay',bar:__cparScroll,
+   code:function(){var v=(S&&S.devo&&S.devo.view)||1;return 'S=load()||S;openDevo();_devoView('+(+v)+');';}},
+  {root:function(){return document.getElementById('temp-overlay');},grab:'#temp-overlay',bar:__cparScroll,
+   code:function(){return 'S=load()||S;openTemperance();';}},
+  {root:function(){return document.getElementById('bed-overlay');},grab:'#bed-overlay',bar:__cparScroll,
+   code:function(){return 'S=load()||S;openBedtime();_bedStep='+(+_bedStep||0)+';_bedDraw();';}},
+  {root:function(){var b=document.querySelector('.tnrow button.on'),t=b&&b.getAttribute('data-tab');return (!__cparOv()&&(t==='food'||t==='fast'))?document.getElementById('view'):null;},grab:'#view',
+   code:function(){var b=document.querySelector('.tnrow button.on');return "S=load()||S;go('"+(b&&b.getAttribute('data-tab'))+"');";}}
+ ]};
+</script>
+<script src="cpar321.js?v=v8-up1103-xz1103-xzm1103-rf1105-cs1109"></script>
 </body>
 </html>
