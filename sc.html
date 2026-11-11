@@ -2,6 +2,7 @@
 <html lang="zh-Hans" data-theme="light" data-fs="large">
 <head>
 <script>/* 一起共讀：先記下 ?join=CODE（&screen=1）；語言頁轉址會丟掉網址參數 */(function(){try{var q=location.search,m=q.match(/[?&]join=(\d{6})/);if(m){sessionStorage.setItem('cr_j',JSON.stringify({j:m[1],s:/[?&]screen=1/.test(q)?1:0,t:Date.now()}));}if(/[?&]screen=1/.test(q)){window.CR_SCREEN=true;}}catch(e){}})();</script>
+<script>/* ?lang321=zh|zs|en|ko|ja|id|ceb：空中團契／小智問答帶入語言，存進 nh321_lang 並轉到對應語言頁（保留其他參數與 #），用完即從網址移除 */(function(){try{var m=/[?&]lang321=([A-Za-z]+)/.exec(location.search);if(!m)return;var k={zh:'tc',zs:'sc',en:'en',ko:'en',ja:'en',id:'en',ceb:'en'}[m[1].toLowerCase()];if(!k)return;try{localStorage.setItem('nh321_lang',k);}catch(e){}var q=location.search.replace(/([?&])lang321=[^&]*(&|$)/,function(a,p,e){return e?p:'';}).replace(/[?&]$/,'');if(k!=='sc'){window.L321_REDIR=1;location.replace({tc:'index.html',sc:'sc.html',en:'en.html'}[k]+q+location.hash);return;}if(history.replaceState)history.replaceState(history.state,'',location.pathname+q+location.hash);}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
@@ -3041,8 +3042,8 @@ window.GXA_CFG = {
 <script src="xzm.js?v=xzm1103"></script>
 <script>try{XZM.install(XZM.preset.gx());}catch(e){}</script>
 <script src="coread.js?v=co20261102a"></script>
-<script>var APPVER="v8-up1103-xz1103-xzm1103-rf1105-cs1109";window.UPD321_VER=APPVER;window.UPD321_PFX=["nsmain321-", "newstart321-v6-gx1103"];</script>
-<script src="upd321.js?v=v8-up1103-xz1103-xzm1103-rf1105-cs1109"></script>
+<script>var APPVER="v8-up1103-xz1103-xzm1103-rf1105-cs1109-lg1111";window.UPD321_VER=APPVER;window.UPD321_PFX=["nsmain321-", "newstart321-v6-gx1103"];</script>
+<script src="upd321.js?v=v8-up1103-xz1103-xzm1103-rf1105-cs1109-lg1111"></script>
 <script>UPD321.mountWhen("#view","end",null,".set-row");</script>
 <script id="CPARCFG">/* 逐句中英並讀（cpar321.js）：30天靈修、節制清單、睡前安息、飲食與斷食分頁 */
 function __cparOv(){return document.querySelector('#devo-overlay,#bed-overlay,#temp-overlay,#breath-overlay');}
@@ -3059,6 +3060,6 @@ window.CPAR321_CFG={ui:'sc',alt:'en.html',altLang:'en',delay:450,seed:['newstart
    code:function(){var b=document.querySelector('.tnrow button.on');return "S=load()||S;go('"+(b&&b.getAttribute('data-tab'))+"');";}}
  ]};
 </script>
-<script src="cpar321.js?v=v8-up1103-xz1103-xzm1103-rf1105-cs1109"></script>
+<script src="cpar321.js?v=v8-up1103-xz1103-xzm1103-rf1105-cs1109-lg1111"></script>
 </body>
 </html>
